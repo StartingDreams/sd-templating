@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 export class NoMatch extends React.Component {
-  goLogin = () => (<Redirect to={{ pathname: '/login' }} />);
+  goLogin = () => (<Redirect to={{ pathname: '/' }} />);
   goDashboard = () => (<Redirect to={{ pathname: '/dashboard' }} />);
   render = () => (this.props.isAuthenticated ? (this.goDashboard()) : (this.goLogin()));
 }

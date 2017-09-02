@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
+import Firebase from '../../modules/Firebase';
 import { createStore } from '../../state';
 import Header from '../../modules/Header';
 import NoMatch from '../../components/NoMatch';
@@ -20,6 +20,7 @@ export default function Root() {
         <div>
           <BrowserRouter>
             <div>
+              <Firebase />
               <Header />
               <div className="main-body">
                 <Switch>
