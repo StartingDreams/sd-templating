@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import configureStore from './CreateStore';
-import examples from '../ducks/examples';
+import example from '../ducks/example';
+import editor from '../ducks/editor';
 import auth from '../ducks/auth';
 import ui from '../ducks/ui';
 
 export function createStore() {
   const rootReducer = combineReducers({
-    examples,
+    example,
+    editor,
     auth,
     ui,
   });

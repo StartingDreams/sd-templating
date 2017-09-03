@@ -1,4 +1,5 @@
 import React from 'react';
+import FlatButton from 'material-ui/FlatButton';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -16,10 +17,11 @@ export const logoutClick = () => {
 };
 
 export class Login extends React.Component {
-  render = () => (
-    this.props.isAuthenticated ? (<button onClick={logoutClick}>Logout</button>)
-    : (<button onClick={loginClick}>Login</button>)
-  );
+  render = () => (<div>{
+    this.props.isAuthenticated
+      ? (<FlatButton id="head-logout-button" label="Logout" onClick={logoutClick}/>)
+      : (<FlatButton id="head-logout-button" label="Login" onClick={loginClick}/>)
+  }</div>);
 }
 
 Login.propTypes = {

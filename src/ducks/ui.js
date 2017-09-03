@@ -1,21 +1,28 @@
+import { fromJS } from 'immutable';
+
 export const Types = {
-  TOGGLE_EXAMPLE: 'ui/CLICKED',
+  TOGGLE_LEFT_DRAWER: 'ui/TOGGLE_LEFT_DRAWER',
+  CLOSE_LEFT_DRAWER: 'ui/CLOSE_LEFT_DRAWER',
 };
 
-export const toggleExample = () => ({
-  type: Types.TOGGLE_EXAMPLE,
+export const toggleLeftDrawer = () => ({
+  type: Types.TOGGLE_LEFT_DRAWER,
 });
 
-export const INITIAL_STATE = {
-  toggleExample: false,
-};
+export const closeLeftDrawer = () => ({
+  type: Types.CLOSE_LEFT_DRAWER,
+});
+
+export const INITIAL_STATE = fromJS({
+  leftDrawerOpen: false,
+});
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
-  const newState = Object.assign({}, state);
   switch (action.type) {
-    case Types.TOGGLE_EXAMPLE:
-      newState.toggleExample = !state.toggleExample;
-      return newState;
+    case Types.TOGGLE_LEFT_DRAWER:
+      return state.set('leftDrawerOpen', !state.get('leftDrawerOpen'));
+    case Types.CLOSE_LEFT_DRAWER:
+      return state.set('leftDrawerOpen', false);
     default:
       return state;
   }
