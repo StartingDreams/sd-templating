@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { moveLayoutUp, moveLayoutDown } from '../../../../ducks/example';
+import { moveLayoutUp, moveLayoutDown } from '../../../../ducks/editor';
 import ContentContainer from '../../ContentContainer';
 
 export class OneColumn extends React.Component {
   render = () => {
-    const {containers, sectionKey, layoutKey, dispatch, editor} = this.props;
+    const {containers, sectionKey, layoutKey, dispatch, content, currentContentID} = this.props;
     let node = null;
     const setRef = (ref) => {
       node = ref;
@@ -29,10 +29,10 @@ export class OneColumn extends React.Component {
       }
     };
     const moveDown = () => {
-      moveLayoutDown(editor, sectionKey, layoutKey, dispatch);
+      moveLayoutDown(content, currentContentID, sectionKey, layoutKey, dispatch);
     };
     const moveUp = () => {
-      moveLayoutUp(editor, sectionKey, layoutKey, dispatch);
+      moveLayoutUp(content, currentContentID, sectionKey, layoutKey, dispatch);
     };
 
     return (
@@ -69,13 +69,15 @@ export class OneColumn extends React.Component {
 }
 
 OneColumn.propTypes = {
-  dispatch: PropTypes.func,
-  editor: ImmutablePropTypes.map,
+  content: ImmutablePropTypes.list,
+  currentContentID: PropTypes.number.isRequired,
 };
 
 export const mapStateToProps = state => ({
-  editor: state.example.get('editor'),
+  content: state.editor.get('content'),
+  currentContentID: state.editor.get('currentContentID'),
 });
+
 
 export default connect(
   mapStateToProps,

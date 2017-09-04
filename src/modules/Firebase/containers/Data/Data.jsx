@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getAll } from '../../../ducks/editor';
+import { getAll } from '../../../../ducks/editor';
 
 export class Data extends React.Component {
   componentDidMount = () => {

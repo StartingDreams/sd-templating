@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { update } from '../../../../ducks/example';
+import { updateContent, getFailure } from '../../../../ducks/editor';
 
 export class Text extends React.Component {
   onChange = () => {
@@ -14,12 +14,13 @@ export class Text extends React.Component {
       return;
     }
     this.lastHtml = html;
-    this.updateContent(html);
+    this.update(html);
   };
 
-  updateContent = (html) => {
-    const { editor, sectionKey, layoutKey, containerKey, contentKey, subContentKey, dispatch} = this.props;
-    const newEditor = editor.setIn([
+  update = (html) => {
+    const { content, currentContentID, sectionKey, layoutKey, containerKey, contentKey, subContentKey, dispatch} = this.props;
+    const updatedContent = content.setIn([
+      currentContentID,
       'sections',
       sectionKey,
       'layouts',
@@ -31,7 +32,10 @@ export class Text extends React.Component {
       'text',
       subContentKey,
     ], html);
-    dispatch(update(newEditor));
+
+    updateContent(dispatch, updatedContent).catch((error) => {
+      dispatch(getFailure(error.message));
+    });
   };
 
   render = () => {
@@ -53,12 +57,13 @@ export class Text extends React.Component {
 }
 
 Text.propTypes = {
-  dispatch: PropTypes.func,
-  editor: ImmutablePropTypes.map,
+  content: ImmutablePropTypes.list,
+  currentContentID: PropTypes.number.isRequired,
 };
 
 export const mapStateToProps = state => ({
-  editor: state.example.get('editor'),
+  content: state.editor.get('content'),
+  currentContentID: state.editor.get('currentContentID'),
 });
 
 export default connect(

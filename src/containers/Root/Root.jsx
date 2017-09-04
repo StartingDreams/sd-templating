@@ -8,6 +8,7 @@ import Firebase from '../../modules/Firebase';
 import { createStore } from '../../state';
 import Header from '../../modules/Header';
 import NoMatch from '../../components/NoMatch';
+import PrivateRoute from '../../components/PrivateRoute';
 import Editor from '../../modules/Editor';
 import Dashboard from '../../modules/Dashboard';
 import { Theme } from '../../styleguide';
@@ -31,7 +32,7 @@ export default function Root() {
                   <Switch>
                     <Route path="/" exact component={Dashboard} />
                     <Route path="/dashboard" exact component={Dashboard} />
-                    <Route path="/editor" exact component={Editor} />
+                    <PrivateRoute path="/editor" exact component={Editor} />
                     <Route component={NoMatch}/>
                   </Switch>
                 </Paper>
