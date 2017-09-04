@@ -17,17 +17,18 @@ const editor = {
     {name: "Body", styles: {}, "layouts": [
       {name: "OneColumn", styles: {}, containers:[
         [
-          {name: "FancyTitle", data: {text: ["Some Title", "Some Sub Title 1"]}}
+          {name: "Title", data: {text: [""]}},
+          {name: "Paragraph", data: {text: [""]}}
         ],
       ]},
       {name: "ThreeColumn", styles: {}, containers:[
         [
-          {name: "FancyTitle", data: {text: ["Some Title", "Some Sub Title 2"]}}
+          {name: "FancyTitle", data: {text: ["", "Some Sub Title 2"]}}
         ],
       ]},
       {name: "TwoColumn", styles: {}, containers:[
         [
-          {name: "FancyTitle", data: {text: ["Some Title", "Some Sub Title 3"]}}
+          {name: "FancyTitle", data: {text: ["", "Some Sub Title 3"]}}
         ],
       ]},
     ]},
@@ -47,7 +48,6 @@ export const update = editor => ({
 });
 
 export const moveLayoutUpOneSection = (editor, sectionKey, layoutKey, dispatch) => {
-  console.log('move layout up one section');
   const newSectionKey = sectionKey - 1;
   const layouts = editor.getIn(['sections', sectionKey, 'layouts']);
   const layout = layouts.get(layoutKey);
@@ -61,7 +61,6 @@ export const moveLayoutUpOneSection = (editor, sectionKey, layoutKey, dispatch) 
 };
 
 export const moveLayoutUpSameSection = (editor, sectionKey, layoutKey, dispatch) => {
-  console.log('move layout up same section');
   const layouts = editor.getIn(['sections', sectionKey, 'layouts']);
   const layout = layouts.get(layoutKey);
   const newLayout = layouts.delete(layoutKey).insert(layoutKey - 1, layout);
@@ -70,9 +69,7 @@ export const moveLayoutUpSameSection = (editor, sectionKey, layoutKey, dispatch)
 };
 
 export const moveLayoutUp = (editor, sectionKey, layoutKey, dispatch) => {
-  console.log('moveUP', sectionKey, layoutKey);
   if (sectionKey === 0 && layoutKey === 0) {
-    console.log('already at top');
     return;
   }
   if (layoutKey === 0) {
@@ -86,7 +83,6 @@ export const moveLayoutUp = (editor, sectionKey, layoutKey, dispatch) => {
 };
 
 export const moveLayoutDownSameSection = (editor, sectionKey, layoutKey, dispatch) => {
-  console.log('move layout down same section');
   const layouts = editor.getIn(['sections', sectionKey, 'layouts']);
   const layout = layouts.get(layoutKey);
   const newLayout = layouts.delete(layoutKey).insert(layoutKey + 1, layout);
@@ -95,7 +91,6 @@ export const moveLayoutDownSameSection = (editor, sectionKey, layoutKey, dispatc
 };
 
 export const moveLayoutDownOneSection = (editor, sectionKey, layoutKey, dispatch) => {
-  console.log('move layout down one section');
   const newSectionKey = sectionKey + 1;
   const layouts = editor.getIn(['sections', sectionKey, 'layouts']);
   const layout = layouts.get(layoutKey);
@@ -109,10 +104,7 @@ export const moveLayoutDownOneSection = (editor, sectionKey, layoutKey, dispatch
 };
 
 export const moveLayoutDown = (editor, sectionKey, layoutKey, dispatch) => {
-  console.log('moveDown', sectionKey, layoutKey);
-  const totalSections = editor.get('sections').size;
   const totalLayouts = editor.getIn(['sections', sectionKey, 'layouts']).size;
-  console.log('totalSections', totalSections, 'totalLayouts', totalLayouts);
   if (layoutKey + 1 === totalLayouts) {
     moveLayoutDownOneSection(editor, sectionKey, layoutKey, dispatch);
     return;
@@ -127,7 +119,7 @@ export const INITIAL_STATE = fromJS({
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case Types.UPDATE:
-      return state.withMutations(s => s.set('editor', fromJS(action.editor)));
+      return state.withMutations(s => s.set('editor', action.editor));
     default:
       return state;
   }

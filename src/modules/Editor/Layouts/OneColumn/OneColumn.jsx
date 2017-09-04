@@ -37,11 +37,11 @@ export class OneColumn extends React.Component {
 
     return (
       <div className="sd-layout" onClick={onClick} ref={setRef}>
-        <table width="100%" style={{backgroundColor: "#1b1c1c"}}>
+        <table width="100%" style={{backgroundColor: "#1b1c1c", borderCollapse: "collapse"}}>
           <tbody>
           <tr>
-            <td>
-              <table width="600" style={{backgroundColor: "#ffffff", width: "600px", margin: "0 auto"}}>
+            <td style={{padding: 0}}>
+              <table width="600" style={{backgroundColor: "#ffffff", borderCollapse: "collapse", width: "600px", margin: "0 auto"}}>
                 <tbody>
                 <tr>
                   <td width="100%" style={{
@@ -54,7 +54,7 @@ export class OneColumn extends React.Component {
                     color: "#333333",
                     fontStyle: "italic",
                   }} className="opensans">
-                    <ContentContainer contentBlocks={containers.get(0, [])}/>
+                    <ContentContainer sectionKey={sectionKey} layoutKey={layoutKey} containerKey={0} contentBlocks={containers.get(0, [])}/>
                   </td>
                 </tr>
                 </tbody>

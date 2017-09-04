@@ -7,7 +7,7 @@ export default (props) => {
   const { contentData, sectionKey, layoutKey, containerKey, contentKey } = props;
   const text = contentData.get('text');
   return (
-    <div className="sd-fancy-title">
+    <div className="sd-title">
       <h2>
         <Text
           defaultText="Default Title"
@@ -19,17 +19,6 @@ export default (props) => {
           subContentKey={0}
         />
       </h2>
-      <h5>
-        <Text
-          defaultText="Default Sub Title"
-          currentText={text.get(1)}
-          sectionKey={sectionKey}
-          layoutKey={layoutKey}
-          containerKey={containerKey}
-          contentKey={contentKey}
-          subContentKey={1}
-        />
-      </h5>
     </div>
   );
 }

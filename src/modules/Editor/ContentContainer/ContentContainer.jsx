@@ -2,7 +2,7 @@ import React from 'react';
 import ContentBlocks from '../ContentBlocks';
 
 export default (props) => {
-  const { contentBlocks } = props;
+  const { contentBlocks, sectionKey, layoutKey, containerKey } = props;
   const Content = [];
   const contentData = [];
   contentBlocks.map(value => {
@@ -16,6 +16,10 @@ export default (props) => {
         <ContentBlock
           key={key}
           contentData={contentData[key]}
+          sectionKey={sectionKey}
+          layoutKey={layoutKey}
+          containerKey={containerKey}
+          contentKey={key}
         />
       ))}
     </div>
