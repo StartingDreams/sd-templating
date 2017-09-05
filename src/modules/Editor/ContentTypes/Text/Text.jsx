@@ -39,15 +39,16 @@ export class Text extends React.Component {
   };
 
   render = () => {
-    const { defaultText, currentText } = this.props;
+    const { defaultText, currentText, mode } = this.props;
     const startingHtml = currentText ? currentText : defaultText;
     const setRef = (ref) => {
       this.ref = ref;
     };
     this.lastHtml = startingHtml;
+
     return (
       <span
-        contentEditable
+        contentEditable={mode === 'start'}
         suppressContentEditableWarning
         ref={setRef}
         onBlur={this.onChange}
@@ -59,11 +60,13 @@ export class Text extends React.Component {
 Text.propTypes = {
   content: ImmutablePropTypes.list,
   currentContentID: PropTypes.number.isRequired,
+  mode: PropTypes.string,
 };
 
 export const mapStateToProps = state => ({
   content: state.editor.get('content'),
   currentContentID: state.editor.get('currentContentID'),
+  mode: state.editor.get('mode'),
 });
 
 export default connect(

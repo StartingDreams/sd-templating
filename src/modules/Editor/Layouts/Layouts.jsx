@@ -1,11 +1,13 @@
 import OneColumn from './OneColumn';
 import TwoColumn from './TwoColumn';
 import ThreeColumn from './ThreeColumn';
+import ThreeRow from './ThreeRow';
 
-const Sections = {
+const Layouts = {
   OneColumn,
   TwoColumn,
   ThreeColumn,
+  ThreeRow,
 };
 
-export default Sections;
+export default Layouts;
