@@ -41,3 +41,17 @@
 
 .sd-template.sd-mode-edit .sd-layout:hover::after {
   content: "LAYOUT"; }
+
+.sd-template.sd-mode-layout .sd-layout:hover {
+  position: relative; }
+  .sd-template.sd-mode-layout .sd-layout:hover .sd-content-container {
+    outline: 1px dashed #5d79c7;
+    background-color: rgba(93, 121, 199, 0.5); }
+  .sd-template.sd-mode-layout .sd-layout:hover .sd-content-block {
+    min-height: 10px;
+    outline: 1px solid #00a000;
+    background-color: rgba(38, 199, 30, 0.5); }
+  .sd-template.sd-mode-layout .sd-layout:hover::before {
+    content: "CHANGE"; }
+  .sd-template.sd-mode-layout .sd-layout:hover::after {
+    content: "CANCEL"; }

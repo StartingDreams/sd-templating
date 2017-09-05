@@ -7,7 +7,7 @@ export default (props) => {
   const { contentData, sectionKey, layoutKey, containerKey, contentKey } = props;
   const text = contentData.get('text');
   return (
-    <div className="sd-paragraph">
+    <div className="sd-content-block sd-paragraph">
         <Text
           defaultText="Enter paragraph text here..."
           currentText={text.get(0)}

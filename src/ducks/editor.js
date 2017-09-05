@@ -11,6 +11,7 @@ export const Types = {
   OPEN_SIDEBAR: 'editor/OPEN_SIDEBAR',
   CLOSE_SIDEBAR: 'editor/CLOSE_SIDEBAR',
   CHANGE_MODE: 'editor/CHANGE_MODE',
+  CHANGE_LAYOUT: 'editor/CHANGE_LAYOUT'
 };
 
 export const getRequest = () => ({
@@ -44,6 +45,11 @@ export const openSidebar = layoutSettings => ({
 export const closeSidebar = content => ({
   type: Types.CLOSE_SIDEBAR,
   content,
+});
+
+export const changeLayout = (changeLayout, sectionKey, layoutKey) => ({
+  type: Types.CHANGE_LAYOUT,
+  changeLayout,
 });
 
 // const editor = {
@@ -201,7 +207,7 @@ export const moveLayoutDownOneSection = (content, currentContentID, sectionKey, 
   const layout = layouts.get(layoutKey);
   const oldSectionLayouts = layouts.delete(layoutKey);
   const newContent = content.setIn([currentContentID, 'sections', sectionKey, 'layouts'], oldSectionLayouts);
-  const currentLayouts = content.getIn([currentContentID, 'sections', newSectionKey, 'layouts']);
+  const currentLayouts = content.getIn([currentContentID, 'sections', newSectionKey, 'layouts'], fromJS([]));
   const newPosition = currentLayouts.size === 0 ? 0 : 1;
   const updatedLayouts = currentLayouts.insert(newPosition, layout);
   const updatedContent = newContent.setIn([currentContentID, 'sections', newSectionKey, 'layouts'], updatedLayouts);
@@ -212,7 +218,11 @@ export const moveLayoutDownOneSection = (content, currentContentID, sectionKey, 
 
 export const moveLayoutDown = (content, currentContentID, sectionKey, layoutKey, dispatch) => {
   const totalLayouts = content.getIn([currentContentID, 'sections', sectionKey, 'layouts']).size;
+  const totalSections = content.getIn([currentContentID, 'sections']).size;
   if (layoutKey + 1 === totalLayouts) {
+    if (sectionKey + 1 === totalSections) {
+      return;
+    }
     moveLayoutDownOneSection(content, currentContentID, sectionKey, layoutKey, dispatch);
     return;
   }
@@ -228,6 +238,7 @@ export const INITIAL_STATE = fromJS({
   isLoaded: false,
   fetching: false,
   mode: 'start',
+  changeLayout: {},
   currentContentID: 0,
   sidebar: {
     open: false,
@@ -240,6 +251,9 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
     case Types.CHANGE_MODE:
       return state.set('mode', fromJS(action.mode));
+    case Types.CHANGE_LAYOUT:
+      return state.withMutations(s => s
+        .set('changeLayout', fromJS(action.changeLayout)));
     case Types.GET_REQUEST:
       return state.set('fetching', true);
     case Types.GET_FAILURE:

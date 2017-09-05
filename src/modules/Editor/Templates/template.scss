@@ -53,3 +53,23 @@
     content: "LAYOUT";
   }
 }
+
+.sd-template.sd-mode-layout .sd-layout:hover {
+  .sd-content-container {
+    outline: 1px dashed #5d79c7;
+    background-color: rgba(93, 121, 199, 0.5);
+  }
+  .sd-content-block {
+    min-height: 10px;
+    outline: 1px solid #00a000;
+    background-color: rgba(38, 199, 30, 0.50);
+  }
+
+  position: relative;
+  &::before {
+    content: "CHANGE";
+  }
+  &::after {
+    content: "CANCEL";
+  }
+}
