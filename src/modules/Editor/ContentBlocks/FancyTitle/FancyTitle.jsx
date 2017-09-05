@@ -8,7 +8,7 @@ export default (props) => {
   const text = contentData.get('text');
   return (
     <div className="sd-fancy-title">
-      <h2>
+      <h2 style={{margin: "10px"}}>
         <Text
           defaultText="Default Title"
           currentText={text.get(0)}
@@ -19,7 +19,7 @@ export default (props) => {
           subContentKey={0}
         />
       </h2>
-      <h5>
+      <h5 style={{margin: "-10px 5px 5px 5px", color: "#ccc"}}>
         <Text
           defaultText="Default Sub Title"
           currentText={text.get(1)}

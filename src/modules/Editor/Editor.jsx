@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import Templates from './Templates';
 import Sections from './Sections';
+import Sidebar from './Sidebar';
 
 import './Templates/template.css';
 
@@ -15,9 +16,6 @@ export class Editor extends React.Component {
       return null;
     }
     const editor = content.get(currentContentID);
-    console.log('content', currentContentID, content.toJS());
-    console.log('editor', editor.toJS());
-
     const RenderTemplate = Templates[editor.get('template')];
     const RenderSections = [];
     const renderStyles = [];
@@ -37,6 +35,7 @@ export class Editor extends React.Component {
           renderStyles={renderStyles}
           layouts={renderLayouts}
         />
+        <Sidebar />
       </div>
     );
   };

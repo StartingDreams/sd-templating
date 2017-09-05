@@ -7,7 +7,6 @@
     position: absolute;
     right: 0;
     top: 0;
-    content: "UP";
     width: 75px;
     background-color: #333;
     padding: 4px;
@@ -20,7 +19,6 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    content: "DOWN";
     width: 75px;
     background-color: #333;
     padding: 4px;
@@ -29,10 +27,29 @@
   }
 }
 
-.sd-fancy-title {
-  h2 {margin: 10px;}
-  h5 {
-    margin: -10px 5px 5px 5px;
-    color: #ccc;
+.sd-template.sd-mode-start .sd-layout:hover{
+  &::before {
+    content: "MOVE";
+  }
+  &::after {
+    content: "EDIT";
+  }
+}
+
+.sd-template.sd-mode-move .sd-layout:hover{
+  &::before {
+    content: "UP";
+  }
+  &::after {
+    content: "DOWN";
+  }
+}
+
+.sd-template.sd-mode-edit .sd-layout:hover{
+  &::before {
+    content: "STYLES";
+  }
+  &::after {
+    content: "LAYOUT";
   }
 }

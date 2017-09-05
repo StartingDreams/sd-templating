@@ -8,6 +8,9 @@ export const Types = {
   GET_FAILURE: 'editor/GET_FAILURE',
   GET_SUCCESS: 'editor/GET_SUCCESS',
   UPDATE_CONTENT: 'editor/UPDATE_CONTENT',
+  OPEN_SIDEBAR: 'editor/OPEN_SIDEBAR',
+  CLOSE_SIDEBAR: 'editor/CLOSE_SIDEBAR',
+  CHANGE_MODE: 'editor/CHANGE_MODE',
 };
 
 export const getRequest = () => ({
@@ -24,8 +27,23 @@ export const getSuccess = content => ({
   content,
 });
 
+export const changeMode = mode => ({
+  type: Types.CHANGE_MODE,
+  mode,
+});
+
 export const updateContentSuccess = () => ({
   type: Types.UPDATE_CONTENT,
+});
+
+export const openSidebar = layoutSettings => ({
+  type: Types.OPEN_SIDEBAR,
+  layoutSettings,
+});
+
+export const closeSidebar = content => ({
+  type: Types.CLOSE_SIDEBAR,
+  content,
 });
 
 // const editor = {
@@ -75,8 +93,7 @@ export const getAll = (dispatch) => {
     dispatch(getRequest());
     database.ref(`editor/users/${uid}/content`).on('value', (snapshot) => {
       const values = snapshot.val();
-      console.log('values', values);
-      dispatch(getSuccess(fromJS(values)));
+      dispatch(getSuccess(values));
     }, (error) => {
       dispatch(getFailure(error.message));
     });
@@ -145,7 +162,7 @@ export const moveLayoutUpOneSection = (content, currentContentID, sectionKey, la
   const layout = layouts.get(layoutKey);
   const oldSectionLayouts = layouts.delete(layoutKey);
   const newContent = content.setIn([currentContentID, 'sections', sectionKey, 'layouts'], oldSectionLayouts);
-  const currentLayouts = content.getIn([currentContentID, 'sections', newSectionKey, 'layouts']);
+  const currentLayouts = content.getIn([currentContentID, 'sections', newSectionKey, 'layouts'], fromJS([]));
   const newPosition = currentLayouts.size === 0 ? 0 : currentLayouts.size - 1;
   const updatedLayouts = currentLayouts.insert(newPosition, layout);
   const updatedContent = newContent.setIn([currentContentID, 'sections', newSectionKey, 'layouts'], updatedLayouts);
@@ -202,15 +219,27 @@ export const moveLayoutDown = (content, currentContentID, sectionKey, layoutKey,
   moveLayoutDownSameSection(content, currentContentID, sectionKey, layoutKey, dispatch);
 };
 
+// modes:
+// start: select move or edit
+// move: up / down
+// edit: styles / layout
+
 export const INITIAL_STATE = fromJS({
   isLoaded: false,
   fetching: false,
+  mode: 'start',
   currentContentID: 0,
+  sidebar: {
+    open: false,
+    layoutSettings: {},
+  },
   content: [],
 });
 
 export default function reducer(state = INITIAL_STATE, action = {}) {
   switch (action.type) {
+    case Types.CHANGE_MODE:
+      return state.set('mode', fromJS(action.mode));
     case Types.GET_REQUEST:
       return state.set('fetching', true);
     case Types.GET_FAILURE:
@@ -221,7 +250,15 @@ export default function reducer(state = INITIAL_STATE, action = {}) {
         .set('content', fromJS(action.content)))
         .set('isLoaded', true)
         .set('fetching', false);
-    case Types.ADD_SUCCESS:
+    case Types.OPEN_SIDEBAR:
+      return state.withMutations(s => s
+        .setIn(['sidebar', 'layoutSettings'], fromJS(action.layoutSettings)))
+        .setIn(['sidebar', 'open'], true);
+    case Types.CLOSE_SIDEBAR:
+      return state.withMutations(s => s
+        .setIn(['sidebar', 'layoutSettings'], fromJS({})))
+        .setIn(['sidebar', 'open'], false);
+    case Types.UPDATE_CONTENT:
       return state.set('fetching', false);
     default:
       return state;

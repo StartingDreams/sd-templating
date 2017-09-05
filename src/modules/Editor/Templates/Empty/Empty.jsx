@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export default class Empty extends React.Component {
+export class Empty extends React.PureComponent {
   render = () => {
-    const {sections, renderStyles, layouts} = this.props;
+    const {sections, renderStyles, layouts, mode} = this.props;
+    const templateClass = `sd-template sd-mode-${mode}`;
+
     return (
-      <div className="sd-template">
+      <div className={templateClass}>
         {sections.map((Section, key) => (
           <Section
             key={key}
@@ -17,3 +21,16 @@ export default class Empty extends React.Component {
     );
   }
 }
+
+Empty.propTypes = {
+  dispatch: PropTypes.func,
+  mode: PropTypes.string,
+};
+
+export const mapStateToProps = state => ({
+  mode: state.editor.get('mode'),
+});
+
+export default connect(
+  mapStateToProps,
+)(Empty);

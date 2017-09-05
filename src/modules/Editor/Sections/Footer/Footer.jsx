@@ -8,7 +8,7 @@ export default (props) => {
   const layoutContainers = [];
   layouts.map(value => {
     RenderLayouts.push(Layouts[value.get('name')]);
-    layoutStyles.push(value.get('styles'));
+    layoutStyles.push(value.get('styleData'));
     layoutContainers.push(value.get('containers'));
     return false;
   });
